@@ -1,10 +1,7 @@
 import styles from './Card.module.scss';
 
 function Card(props) {
-    const { title, price, imageUrl } = props;
-    const onClickBtn = () => {
-        alert('Hello');
-    };
+    const { onClickPlus, title, price, imageUrl } = props;
 
     return (
         <div className={styles.card}>
@@ -18,7 +15,7 @@ function Card(props) {
                     <span>Цена:</span>
                     <b>{price} руб.</b>
                 </div>
-                <button className='button' onClick={onClickBtn}>
+                <button className='button' onClick={onClickPlus}>
                     <img width={11} height={11} src="/img/plus.svg" alt="plus" />
                 </button>
             </div>
