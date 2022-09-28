@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import Card from './components/Card';
 import Header from './components/Header';
@@ -9,8 +10,11 @@ function App() {
     const [cartItems, setCartItems] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [cartOpened, setCartOpened] = useState(false);
+    
+    const _apiUrl = 'https://632f8112b56bd6ac45b0d2f1.mockapi.io/';
 
     const onAddToCart = (obj) => {
+        axios.post(`${_apiUrl}cart`, obj);
         setCartItems(prev => [...prev, obj]);
     };
 
@@ -18,19 +22,31 @@ function App() {
         setSearchValue(event.target.value);
     };
 
+    const onRemoveItem = (id) => {
+        // axios.delete(`${_apiUrl}cart/${id}`);
+        setCartItems((prev) => prev.filter((item) => item.id !== id));
+    };
+
     useEffect(() => {
-        fetch('https://632f8112b56bd6ac45b0d2f1.mockapi.io/items')
-            .then(res => {
-                return res.json();
-            })
-            .then(json => {
-                setItems(json);
+        axios.get(`${_apiUrl}items`)
+            .then((res) => {
+                setItems(res.data);
             });
+        axios.get(`${_apiUrl}cart`)
+        .then((res) => {
+            setCartItems(res.data);
+        });
     }, []);
 
     return (
         <div className='wrapper clear'>
-            {cartOpened && <Drawer items={cartItems} onClickClose={() => setCartOpened(false)} />}
+            {cartOpened &&
+                 <Drawer 
+                    items={cartItems} 
+                    onClickClose={() => setCartOpened(false)} 
+                    onRemove={onRemoveItem}
+                 />
+            }
             <Header onClickCart={() => setCartOpened(true)} />
             <div className="content p-40">
                 <div className='d-flex align-center justify-between mb-40'>
