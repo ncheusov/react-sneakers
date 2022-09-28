@@ -7,10 +7,15 @@ import Drawer from './components/Drawer';
 function App() {
     const [items, setItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
     const [cartOpened, setCartOpened] = useState(false);
 
     const onAddToCart = (obj) => {
         setCartItems(prev => [...prev, obj]);
+    };
+
+    const onChangeSearchInput = (event) => {
+        setSearchValue(event.target.value);
     };
 
     useEffect(() => {
@@ -26,26 +31,47 @@ function App() {
     return (
         <div className='wrapper clear'>
             {cartOpened && <Drawer items={cartItems} onClickClose={() => setCartOpened(false)} />}
-            <Header onClickCart={() => setCartOpened(true)}/>
+            <Header onClickCart={() => setCartOpened(true)} />
             <div className="content p-40">
                 <div className='d-flex align-center justify-between mb-40'>
-                    <h1>Все кроссовки</h1>
+                    <h1>
+                        {searchValue
+                            ? `Поиск по запросу: "${searchValue}"`
+                            : 'Все кроссовки'
+                        }
+                    </h1>
                     <div className="search-block d-flex">
                         <img src="img/search.svg" alt="Search" />
-                        <input placeholder='Поиск' />
+                        {searchValue && (
+                            <img
+                                onClick={() => setSearchValue('')}
+                                className='clear cu-p'
+                                onChange={onChangeSearchInput}
+                                src="/img/btn-remove.svg"
+                                alt="Clear"
+                            />
+                        )}
+                        <input
+                            onChange={onChangeSearchInput}
+                            value={searchValue}
+                            placeholder='Поиск'
+                        />
                     </div>
                 </div>
 
                 <div className="d-flex flex-wrap">
-                    {items.map(({ title, price, imageUrl }) => (
-                        <Card
-                            title={title}
-                            price={price}
-                            imageUrl={imageUrl}
-                            onClickFavorite={() => console.log('Добавили в закладки')}
-                            onPlus={(obj) => onAddToCart(obj)}
-                        />
-                    ))}
+                    {items
+                        .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+                        .map((item, index) => (
+                            <Card
+                                key={index}
+                                title={item.title}
+                                price={item.price}
+                                imageUrl={item.imageUrl}
+                                onClickFavorite={() => console.log('Добавили в закладки')}
+                                onPlus={(obj) => onAddToCart(obj)}
+                            />
+                        ))}
                 </div>
             </div>
         </div>
