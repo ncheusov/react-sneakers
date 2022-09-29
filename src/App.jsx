@@ -23,7 +23,7 @@ function App() {
     };
 
     const onRemoveItem = (id) => {
-        // axios.delete(`${_apiUrl}cart/${id}`);
+        axios.delete(`${_apiUrl}cart/${id}`);
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 

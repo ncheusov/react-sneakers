@@ -36,6 +36,34 @@ header {
     }
 }
 
+.cartEmpty {
+    text-align: center;
+
+    p {
+        width: 280px;
+        line-height: 24px;
+    }
+
+    .greenButton {
+        width: 245px;
+        margin-top: 20px;
+
+        &:hover {
+            img {
+                transform: rotate(180deg) translateX(3px);
+            }
+        }
+
+        img {
+            position: relative;
+            top: 1px;
+            transform: rotate(180deg);
+            margin-right: 15px;
+            transition: transform 0.15s ease-in-out;
+        }
+    }
+}
+
 .search-block {
     border: 1px solid #f3f3f3;
     border-radius: 10px;
@@ -100,7 +128,7 @@ header {
             display: flex;
             align-items: flex-end;
             margin-bottom: 20px;
-    
+
             div {
                 flex: 1;
                 height: 1px;
@@ -114,7 +142,7 @@ header {
 
     .greenButton {
         position: relative;
-        
+
         &:hover {
             img {
                 transform: translateX(5px);
