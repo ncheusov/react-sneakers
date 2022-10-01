@@ -50,7 +50,7 @@ function Card({ title, price, imageUrl, onPlus }) {
                             ? "/img/rectangle-checked.svg"
                             : "/img/btn-plus.svg"
                     }
-                    alt="plus"
+                    alt="Plus"
                 />
             </div>
         </div>

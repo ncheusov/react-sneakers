@@ -8,6 +8,7 @@ import Drawer from './components/Drawer';
 function App() {
     const [items, setItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [cartOpened, setCartOpened] = useState(false);
     
@@ -25,6 +26,11 @@ function App() {
     const onRemoveItem = (id) => {
         axios.delete(`${_apiUrl}cart/${id}`);
         setCartItems((prev) => prev.filter((item) => item.id !== id));
+    };
+
+    const onAddToFavorite = (obj) => {
+        axios.post(`${_apiUrl}favorites`, obj);
+        setFavorites(prev => [...prev, obj]);
     };
 
     useEffect(() => {
@@ -84,7 +90,7 @@ function App() {
                                 title={item.title}
                                 price={item.price}
                                 imageUrl={item.imageUrl}
-                                onClickFavorite={() => console.log('Добавили в закладки')}
+                                onClickFavorite={(obj) => onAddToFavorite(obj)}
                                 onPlus={(obj) => onAddToCart(obj)}
                             />
                         ))}
