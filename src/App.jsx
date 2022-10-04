@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 
 import Card from './components/Card';
@@ -47,13 +48,16 @@ function App() {
     return (
         <div className='wrapper clear'>
             {cartOpened &&
-                 <Drawer 
+                 (<Drawer 
                     items={cartItems} 
                     onClickClose={() => setCartOpened(false)} 
                     onRemove={onRemoveItem}
-                 />
+                 />)
             }
             <Header onClickCart={() => setCartOpened(true)} />
+
+            {/* <Route path='/test'>Это тестовая информация</Route> */}
+
             <div className="content p-40">
                 <div className='d-flex align-center justify-between mb-40'>
                     <h1>
@@ -90,7 +94,7 @@ function App() {
                                 title={item.title}
                                 price={item.price}
                                 imageUrl={item.imageUrl}
-                                onClickFavorite={(obj) => onAddToFavorite(obj)}
+                                onFavorite={(obj) => onAddToFavorite(obj)}
                                 onPlus={(obj) => onAddToCart(obj)}
                             />
                         ))}

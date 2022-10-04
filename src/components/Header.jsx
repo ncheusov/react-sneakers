@@ -23,10 +23,18 @@ function Header(props) {
                     <img 
                         width={18} 
                         height={18} 
-                        src='/img/card.svg' 
+                        src='/img/cart.svg' 
                         alt="Cart"
                     />
                     <span>1205 руб.</span>
+                </li>
+                <li className="mr-20 cu-p">
+                    <img 
+                        width={18} 
+                        height={18} 
+                        src='/img/heart.svg' 
+                        alt="Favorites"
+                    />
                 </li>
                 <li>
                     <img 
