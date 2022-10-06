@@ -9,7 +9,7 @@ function Favorites({ items }) {
                 </h1>
             </div>
 
-            <div className="d-flex flex-wrap">
+            {/* <div className="d-flex flex-wrap">
                 {items.map((item, index) => (
                     <Card
                         key={index}
@@ -19,7 +19,7 @@ function Favorites({ items }) {
                         favorited={true}
                     />
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 }
