@@ -30,9 +30,18 @@ function App() {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 
-    const onAddToFavorite = (obj) => {
-        axios.post(`${_apiUrl}favorites`, obj);
-        setFavorites(prev => [...prev, obj]);
+    const onAddToFavorite = async (obj) => {
+        try {
+            if (favorites.find(favObj => favObj.id === obj.id)) {
+                axios.delete(`${_apiUrl}favorites/${obj.id}`);
+            } else {
+                const { data } = await axios.post(`${_apiUrl}favorites`, obj);
+                setFavorites(prev => [...prev, data]);
+            } 
+        } catch (error) {
+            alert('Не удалалось добавить в закладки');
+        }
+        
     };
 
     useEffect(() => {
@@ -77,7 +86,10 @@ function App() {
 
                 <Route exact path='/favorites'
                     element={
-                        <Favorites items={favorites} />
+                        <Favorites 
+                            items={favorites} 
+                            onAddToFavorite={onAddToFavorite}    
+                        />
                     }
                 />
             </Routes>
