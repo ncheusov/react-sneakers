@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './components/Header';
@@ -61,20 +61,27 @@ function App() {
             }
             <Header onClickCart={() => setCartOpened(true)} />
 
-            <Route path='/' exact>
-                <Home
-                    searchValue={searchValue}
-                    setSearchValue={setSearchValue}
-                    onChangeSearchInput={onChangeSearchInput}
-                    items={items}
-                    onAddToFavorite={onAddToFavorite}
-                    onAddToCart={onAddToCart}
+            <Routes>
+                <Route exact path='/'
+                    element={
+                        <Home
+                            searchValue={searchValue}
+                            setSearchValue={setSearchValue}
+                            onChangeSearchInput={onChangeSearchInput}
+                            items={items}
+                            onAddToFavorite={onAddToFavorite}
+                            onAddToCart={onAddToCart}
+                        />
+                    }
                 />
-            </Route>
 
-            <Route path='/favorites' exact>
-                <Favorites items={favorites} />
-            </Route>
+                <Route exact path='/favorites'
+                    element={
+                        <Favorites items={favorites} />
+                    }
+                />
+            </Routes>
+
         </div>
     );
 }
