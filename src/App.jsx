@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import axios from 'axios';
 
-import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 function App() {
     const [items, setItems] = useState([]);
@@ -12,7 +13,7 @@ function App() {
     const [favorites, setFavorites] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [cartOpened, setCartOpened] = useState(false);
-    
+
     const _apiUrl = 'https://632f8112b56bd6ac45b0d2f1.mockapi.io/';
 
     const onAddToCart = (obj) => {
@@ -40,66 +41,40 @@ function App() {
                 setItems(res.data);
             });
         axios.get(`${_apiUrl}cart`)
-        .then((res) => {
-            setCartItems(res.data);
-        });
+            .then((res) => {
+                setCartItems(res.data);
+            });
+        axios.get(`${_apiUrl}favorites`)
+            .then((res) => {
+                setFavorites(res.data);
+            });
     }, []);
 
     return (
         <div className='wrapper clear'>
             {cartOpened &&
-                 (<Drawer 
-                    items={cartItems} 
-                    onClickClose={() => setCartOpened(false)} 
+                (<Drawer
+                    items={cartItems}
+                    onClickClose={() => setCartOpened(false)}
                     onRemove={onRemoveItem}
-                 />)
+                />)
             }
             <Header onClickCart={() => setCartOpened(true)} />
 
-            {/* <Route path='/test'>Это тестовая информация</Route> */}
+            <Route path='/' exact>
+                <Home
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    onChangeSearchInput={onChangeSearchInput}
+                    items={items}
+                    onAddToFavorite={onAddToFavorite}
+                    onAddToCart={onAddToCart}
+                />
+            </Route>
 
-            <div className="content p-40">
-                <div className='d-flex align-center justify-between mb-40'>
-                    <h1>
-                        {searchValue
-                            ? `Поиск по запросу: "${searchValue}"`
-                            : 'Все кроссовки'
-                        }
-                    </h1>
-                    <div className="search-block d-flex">
-                        <img src="img/search.svg" alt="Search" />
-                        {searchValue && (
-                            <img
-                                onClick={() => setSearchValue('')}
-                                className='clear cu-p'
-                                onChange={onChangeSearchInput}
-                                src="/img/btn-remove.svg"
-                                alt="Clear"
-                            />
-                        )}
-                        <input
-                            onChange={onChangeSearchInput}
-                            value={searchValue}
-                            placeholder='Поиск'
-                        />
-                    </div>
-                </div>
-
-                <div className="d-flex flex-wrap">
-                    {items
-                        .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-                        .map((item, index) => (
-                            <Card
-                                key={index}
-                                title={item.title}
-                                price={item.price}
-                                imageUrl={item.imageUrl}
-                                onFavorite={(obj) => onAddToFavorite(obj)}
-                                onPlus={(obj) => onAddToCart(obj)}
-                            />
-                        ))}
-                </div>
-            </div>
+            <Route path='/favorites' exact>
+                <Favorites items={favorites} />
+            </Route>
         </div>
     );
 }
