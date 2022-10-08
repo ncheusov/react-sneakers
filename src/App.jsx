@@ -85,13 +85,12 @@ function App() {
             setCartItems
         }}>
             <div className='wrapper clear'>
-                {cartOpened &&
-                    (<Drawer
+                <Drawer
+                        opened={cartOpened}
                         items={cartItems}
                         onClickClose={() => setCartOpened(false)}
                         onRemove={onRemoveItem}
-                    />)
-                }
+                    />
                 <Header onClickCart={() => setCartOpened(true)} />
 
                 <Routes>
