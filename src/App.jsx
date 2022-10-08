@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Drawer from './components/Drawer';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import Orders from './pages/Orders';
 import AppContext from "./context";
 
 export const _apiUrl = 'https://632f8112b56bd6ac45b0d2f1.mockapi.io/';
@@ -79,6 +80,7 @@ function App() {
             favorites, 
             isItemAdded, 
             onAddToFavorite,
+            onAddToCart,
             setCartOpened,
             setCartItems
         }}>
@@ -108,7 +110,8 @@ function App() {
                         }
                     />
 
-                    <Route exact path='/favorites'element={<Favorites/>}/>
+                    <Route exact path='/favorites'element={<Favorites/>} />
+                    <Route exact path='/orders' element={<Orders />} />
                 </Routes>
             </div>
         </AppContext.Provider>
