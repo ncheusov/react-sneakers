@@ -13,12 +13,18 @@ function App() {
     const [favorites, setFavorites] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [cartOpened, setCartOpened] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const _apiUrl = 'https://632f8112b56bd6ac45b0d2f1.mockapi.io/';
 
     const onAddToCart = (obj) => {
-        axios.post(`${_apiUrl}cart`, obj);
-        setCartItems(prev => [...prev, obj]);
+        if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+            axios.delete(`${_apiUrl}cart/${obj.id}`);
+            setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(obj.id)));
+        } else {
+            axios.post(`${_apiUrl}cart`, obj);
+            setCartItems((prev) => [...prev, obj]);
+        }
     };
 
     const onChangeSearchInput = (event) => {
@@ -37,26 +43,27 @@ function App() {
             } else {
                 const { data } = await axios.post(`${_apiUrl}favorites`, obj);
                 setFavorites(prev => [...prev, data]);
-            } 
+            }
         } catch (error) {
             alert('Не удалалось добавить в закладки');
         }
-        
+
     };
 
     useEffect(() => {
-        axios.get(`${_apiUrl}items`)
-            .then((res) => {
-                setItems(res.data);
-            });
-        axios.get(`${_apiUrl}cart`)
-            .then((res) => {
-                setCartItems(res.data);
-            });
-        axios.get(`${_apiUrl}favorites`)
-            .then((res) => {
-                setFavorites(res.data);
-            });
+        async function fetchData() {
+            const cartResponse = await axios.get(`${_apiUrl}cart`);
+            const favoritesResponse = await axios.get(`${_apiUrl}favorites`);
+            const itemsResponse = await axios.get(`${_apiUrl}items`);
+
+            setIsLoading(false);
+            
+            setCartItems(cartResponse.data);
+            setFavorites(favoritesResponse.data);
+            setItems(itemsResponse.data);
+        }
+
+        fetchData();
     }, []);
 
     return (
@@ -74,26 +81,27 @@ function App() {
                 <Route exact path='/'
                     element={
                         <Home
+                            cartItems={cartItems}
                             searchValue={searchValue}
                             setSearchValue={setSearchValue}
                             onChangeSearchInput={onChangeSearchInput}
                             items={items}
                             onAddToFavorite={onAddToFavorite}
                             onAddToCart={onAddToCart}
+                            isLoading={isLoading}
                         />
                     }
                 />
 
                 <Route exact path='/favorites'
                     element={
-                        <Favorites 
-                            items={favorites} 
-                            onAddToFavorite={onAddToFavorite}    
+                        <Favorites
+                            items={favorites}
+                            onAddToFavorite={onAddToFavorite}
                         />
                     }
                 />
             </Routes>
-
         </div>
     );
 }
