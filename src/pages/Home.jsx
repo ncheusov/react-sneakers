@@ -7,7 +7,6 @@ function Home({
     items,
     onAddToFavorite,
     onAddToCart,
-    cartItems,
     isLoading
 }) {
     const renderItems = () => {
@@ -19,7 +18,6 @@ function Home({
                 key={index}
                 onFavorite={(obj) => onAddToFavorite(obj)}
                 onPlus={(obj) => onAddToCart(obj)}
-                added={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
                 loading={isLoading}
                 {...item}
             />
