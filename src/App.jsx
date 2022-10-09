@@ -19,13 +19,17 @@ function App() {
     const [cartOpened, setCartOpened] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const onAddToCart = (obj) => {
-        if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-            axios.delete(`${_apiUrl}cart/${obj.id}`);
-            setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(obj.id)));
-        } else {
-            axios.post(`${_apiUrl}cart`, obj);
-            setCartItems((prev) => [...prev, obj]);
+    const onAddToCart = async (obj) => {
+        try {
+            if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+                setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(obj.id)));
+                await axios.delete(`${_apiUrl}cart/${obj.id}`);
+            } else {
+                setCartItems((prev) => [...prev, obj]);
+                await axios.post(`${_apiUrl}cart`, obj);
+            }
+        } catch (error) {
+            console.error(error, 'Ошибка при добавлении в корзину')
         }
     };
 
@@ -33,9 +37,13 @@ function App() {
         setSearchValue(event.target.value);
     };
 
-    const onRemoveItem = (id) => {
-        axios.delete(`${_apiUrl}cart/${id}`);
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
+    const onRemoveItem = async (id) => {
+        try {
+            await axios.delete(`${_apiUrl}cart/${id}`);
+            setCartItems((prev) => prev.filter((item) => item.id !== id));
+        } catch (error) {
+            console.error(error, 'Ошибка при удалении из корзины');
+        }
     };
 
     const onAddToFavorite = async (obj) => {
@@ -59,26 +67,36 @@ function App() {
 
     useEffect(() => {
         async function fetchData() {
-            const cartResponse = await axios.get(`${_apiUrl}cart`);
-            const favoritesResponse = await axios.get(`${_apiUrl}favorites`);
-            const itemsResponse = await axios.get(`${_apiUrl}items`);
+            try {
+                const [
+                    cartResponse, 
+                    favoritesResponse, 
+                    itemsResponse
+                ] = await Promise.all([
+                    axios.get(`${_apiUrl}cart`),
+                    axios.get(`${_apiUrl}favorites`),
+                    axios.get(`${_apiUrl}items`)
+                ]);
 
-            setIsLoading(false);
+                setIsLoading(false);
 
-            setCartItems(cartResponse.data);
-            setFavorites(favoritesResponse.data);
-            setItems(itemsResponse.data);
+                setCartItems(cartResponse.data);
+                setFavorites(favoritesResponse.data);
+                setItems(itemsResponse.data);
+            } catch (error) {
+                console.error(error, 'Ошибка при запросе данных');
+            }
         }
 
         fetchData();
     }, []);
 
     return (
-        <AppContext.Provider value={{ 
-            items, 
-            cartItems, 
-            favorites, 
-            isItemAdded, 
+        <AppContext.Provider value={{
+            items,
+            cartItems,
+            favorites,
+            isItemAdded,
             onAddToFavorite,
             onAddToCart,
             setCartOpened,
@@ -86,11 +104,11 @@ function App() {
         }}>
             <div className='wrapper clear'>
                 <Drawer
-                        opened={cartOpened}
-                        items={cartItems}
-                        onClickClose={() => setCartOpened(false)}
-                        onRemove={onRemoveItem}
-                    />
+                    opened={cartOpened}
+                    items={cartItems}
+                    onClickClose={() => setCartOpened(false)}
+                    onRemove={onRemoveItem}
+                />
                 <Header onClickCart={() => setCartOpened(true)} />
 
                 <Routes>
@@ -109,7 +127,7 @@ function App() {
                         }
                     />
 
-                    <Route exact path='/favorites'element={<Favorites/>} />
+                    <Route exact path='/favorites' element={<Favorites />} />
                     <Route exact path='/orders' element={<Orders />} />
                 </Routes>
             </div>

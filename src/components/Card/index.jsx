@@ -7,6 +7,7 @@ import styles from './Card.module.scss';
 
 function Card({
     id,
+    parentId,
     title,
     price,
     imageUrl,
@@ -17,13 +18,14 @@ function Card({
 }) {
     const { isItemAdded } = useContext(AppContext);
     const [isFavorite, setIsFavorite] = useState(favorited);
+    const obj = { id, parentId: id, title, price, imageUrl };
 
     const onClickPlus = () => {
-        onPlus({ id, title, price, imageUrl });
+        onPlus(obj);
     };
 
     const onClickFavorite = () => {
-        onFavorite({ id, title, price, imageUrl });
+        onFavorite(obj);
         setIsFavorite(!isFavorite);
     };
 
@@ -77,7 +79,7 @@ function Card({
                                     className={styles.plus}
                                     onClick={onClickPlus}
                                     src={
-                                        isItemAdded(id)
+                                        isItemAdded(parentId)
                                             ? "/img/rectangle-checked.svg"
                                             : "/img/btn-plus.svg"
                                     }
