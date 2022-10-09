@@ -7,7 +7,6 @@ import styles from './Card.module.scss';
 
 function Card({
     id,
-    parentId,
     title,
     price,
     imageUrl,
@@ -79,7 +78,7 @@ function Card({
                                     className={styles.plus}
                                     onClick={onClickPlus}
                                     src={
-                                        isItemAdded(parentId)
+                                        isItemAdded(id)
                                             ? "/img/rectangle-checked.svg"
                                             : "/img/btn-plus.svg"
                                     }
