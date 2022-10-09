@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { _apiUrl } from "../App";
+// import { _apiUrl } from "../App";
 import Card from "../components/Card";
 
 function Orders() {
@@ -11,7 +11,7 @@ function Orders() {
     useEffect(() => {
         (async () => {
             try {
-                const { data } = await axios.get(`${_apiUrl}orders`);
+                const { data } = await axios.get(`https://632f8112b56bd6ac45b0d2f1.mockapi.io/orders`);
                 setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []));
                 setIsLoading(false);
             } catch (error) {
