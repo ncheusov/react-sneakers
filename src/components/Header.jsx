@@ -12,7 +12,7 @@ function Header({ onClickCart }) {
                     <img
                         width={40}
                         height={40}
-                        src='/img/logo.png'
+                        src='img/logo.png'
                         alt="Logotype"
                     />
                     <div>
@@ -29,7 +29,7 @@ function Header({ onClickCart }) {
                     <img
                         width={18}
                         height={18}
-                        src='/img/cart.svg'
+                        src='img/cart.svg'
                         alt="Cart"
                     />
                     <span>{totalPrice}руб.</span>
@@ -39,7 +39,7 @@ function Header({ onClickCart }) {
                         <img
                             width={18}
                             height={18}
-                            src='/img/heart.svg'
+                            src='img/heart.svg'
                             alt="Favorites"
                         />
                     </Link>
@@ -49,7 +49,7 @@ function Header({ onClickCart }) {
                         <img
                             width={18}
                             height={18}
-                            src='/img/user.svg'
+                            src='img/user.svg'
                             alt="User"
                         />
                     </Link>

@@ -40,7 +40,7 @@ function Home({
                             onClick={() => setSearchValue('')}
                             className='clear cu-p'
                             onChange={onChangeSearchInput}
-                            src="/img/btn-remove.svg"
+                            src="img/btn-remove.svg"
                             alt="Clear"
                         />
                     )}
