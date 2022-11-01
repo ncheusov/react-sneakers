@@ -1,0 +1,22 @@
+[
+    {
+     "id": "1",
+     "title": "Мужские Кроссовки Nike Kyrie 7",
+     "price": 11299,
+     "imageUrl": "img/sneakers/6.jpg"
+    },
+    {
+     "id": "2",
+     "parentId": 1,
+     "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+     "price": 12999,
+     "imageUrl": "img/sneakers/1.jpg"
+    },
+    {
+     "id": "3",
+     "parentId": 10,
+     "title": "Мужские Кроссовки Under Armour Curry 8",
+     "price": 15199,
+     "imageUrl": "img/sneakers/10.jpg"
+    }
+]

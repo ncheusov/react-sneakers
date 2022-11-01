@@ -1,0 +1,31 @@
+[
+    {
+     "id": "1",
+     "items": [
+      {
+       "id": "1",
+       "title": "Мужские Кроссовки Under Armour Curry 8",
+       "price": 15199,
+       "imageUrl": "img/sneakers/5.jpg"
+      },
+      {
+       "id": "2",
+       "title": "Мужские Кроссовки Jordan Air Jordan 11",
+       "price": 10799,
+       "imageUrl": "img/sneakers/7.jpg"
+      }
+     ]
+    },
+    {
+     "id": "2",
+     "items": [
+      {
+       "id": "1",
+       "parentId": 2,
+       "title": "Мужские Кроссовки Nike Air Max 270",
+       "price": 15999,
+       "imageUrl": "img/sneakers/2.jpg"
+      }
+     ]
+    }
+]
